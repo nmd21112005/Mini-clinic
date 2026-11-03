@@ -56,4 +56,41 @@ class Appointment
     {
         return $this->status;
     }
+
+    public function confirm(): void
+    {
+        if ($this->status !== 'Chờ xác nhận') {
+            throw new LogicException(
+                'Không thể xác nhận lịch ở trạng thái "' . $this->status . '".'
+            );
+        }
+
+        $this->status = 'Đã xác nhận';
+    }
+
+    public function complete(): void
+    {
+        if ($this->status !== 'Đã xác nhận') {
+            throw new LogicException(
+                'Không thể hoàn thành lịch ở trạng thái "' . $this->status . '".'
+            );
+        }
+
+        $this->status = 'Hoàn thành';
+    }
+
+    public function cancel(): void
+    {
+        if ($this->status === 'Hoàn thành') {
+            throw new LogicException(
+                'Lịch #' . $this->id . ' đang ở trạng thái ' . $this->status . ', không thể huỷ'
+            );
+        }
+
+        if ($this->status === 'Đã huỷ') {
+            throw new LogicException('Lịch đã huỷ.');
+        }
+
+        $this->status = 'Đã huỷ';
+    }
 }
