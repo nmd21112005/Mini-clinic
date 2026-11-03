@@ -13,4 +13,9 @@ class SpecialistConsultation extends Consultation
     {
         return 500000;
     }
+
+    public function canBePerformedBy(Doctor $doctor): bool
+    {
+        return $doctor->isSpecialist();
+    }
 }

@@ -13,4 +13,9 @@ class RegularConsultation extends Consultation
     {
         return 200000;
     }
+
+    public function canBePerformedBy(Doctor $doctor): bool
+    {
+        return true;
+    }
 }
