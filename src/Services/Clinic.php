@@ -4,20 +4,14 @@ require_once __DIR__ . '/../autoload.php';
 
 final class Clinic
 {
-    private AppointmentRepositoryInterface $appointmentRepository;
-
     /** @var Notifier[] */
     private array $notifiers;
 
-    public function __construct(Notifier ...$notifiers)
-    {
+    public function __construct(
+        private AppointmentRepositoryInterface $appointmentRepository,
+        Notifier ...$notifiers
+    ) {
         $this->notifiers = $notifiers;
-        $this->appointmentRepository = new InMemoryAppointmentRepository();
-    }
-
-    public function setAppointmentRepository(AppointmentRepositoryInterface $repository): void
-    {
-        $this->appointmentRepository = $repository;
     }
 
     public function getAppointmentRepository(): AppointmentRepositoryInterface

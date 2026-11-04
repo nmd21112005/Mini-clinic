@@ -29,7 +29,8 @@ $patientBinh = new Patient('Bình', '0902000001');
 $patientChi = new Patient('Chi', '0902000002');
 $regularConsultation = new RegularConsultation();
 $specialistConsultation = new SpecialistConsultation();
-$clinic = new Clinic(new EmailNotifier(), new SmsNotifier());
+$appointmentRepository = new InMemoryAppointmentRepository();
+$clinic = new Clinic($appointmentRepository, new EmailNotifier(), new SmsNotifier());
 
 /** @var Appointment|null $appointmentBinh */
 $appointmentBinh = null;
