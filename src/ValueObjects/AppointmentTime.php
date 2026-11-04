@@ -8,11 +8,12 @@ final readonly class AppointmentTime implements Stringable
 
     public function __construct(string $time)
     {
-        if (!preg_match('/^([01]\d|2[0-3]):[0-5]\d$/', $time)) {
+        $cleantime = trim($time);
+        if (!preg_match('/^([01]\d|2[0-3]):[0-5]\d$/D', $cleantime)) {
             throw new InvalidAppointmentTimeException($time);
         }
 
-        $this->value = $time;
+        $this->value = $cleantime;
     }
 
     public static function from(string|self $time): self
