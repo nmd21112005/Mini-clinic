@@ -1,9 +1,8 @@
 <?php
 
-require_once __DIR__ . '/Notifier.php';
-require_once __DIR__ . '/Patient.php';
+require_once __DIR__ . '/../autoload.php';
 
-class EmailNotifier implements Notifier
+final class EmailNotifier implements Notifier
 {
     public function send(Patient $patient, string $message): void
     {

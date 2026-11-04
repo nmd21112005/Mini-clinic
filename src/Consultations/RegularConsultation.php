@@ -2,7 +2,7 @@
 
 require_once __DIR__ . '/Consultation.php';
 
-class RegularConsultation extends Consultation
+final class RegularConsultation extends Consultation
 {
     public function getName(): string
     {
@@ -12,10 +12,5 @@ class RegularConsultation extends Consultation
     public function getFee(): int
     {
         return 200000;
-    }
-
-    public function canBePerformedBy(Doctor $doctor): bool
-    {
-        return true;
     }
 }
