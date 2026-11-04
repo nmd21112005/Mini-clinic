@@ -62,10 +62,9 @@ final class Clinic
             throw InvalidAppointmentStatusException::cannotConfirm($target->status);
         }
 
-        $updated = $target->withStatus(AppointmentStatus::Confirmed);
-        $this->appointmentRepository->save($updated);
+        $target->changeStatus(AppointmentStatus::Confirmed);
 
-        return $updated;
+        return $target;
     }
 
     public function completeAppointment(int|Appointment $appointment): Appointment
@@ -76,10 +75,9 @@ final class Clinic
             throw InvalidAppointmentStatusException::cannotComplete($target->status);
         }
 
-        $updated = $target->withStatus(AppointmentStatus::Completed);
-        $this->appointmentRepository->save($updated);
+        $target->changeStatus(AppointmentStatus::Completed);
 
-        return $updated;
+        return $target;
     }
 
     public function cancelAppointment(int|Appointment $appointment): Appointment
@@ -98,12 +96,11 @@ final class Clinic
             throw InvalidAppointmentStatusException::cannotCancel($target->id, $target->status);
         }
 
-        $updated = $target->withStatus(AppointmentStatus::Cancelled);
-        $this->appointmentRepository->save($updated);
+        $target->changeStatus(AppointmentStatus::Cancelled);
 
-        $this->notify($updated->patient, 'Lịch #' . $updated->id . ' đã huỷ');
+        $this->notify($target->patient, 'Lịch #' . $target->id . ' đã huỷ');
 
-        return $updated;
+        return $target;
     }
 
     public function confirm(int|Appointment $appointment): Appointment

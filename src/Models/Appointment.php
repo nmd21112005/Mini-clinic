@@ -2,16 +2,19 @@
 
 require_once __DIR__ . '/../autoload.php';
 
-final readonly class Appointment
+final class Appointment
 {
+    private AppointmentStatus $status;
+
     public function __construct(
-        public int $id,
-        public Doctor $doctor,
-        public Patient $patient,
-        public Consultation $consultation,
-        public AppointmentTime $time,
-        public AppointmentStatus $status = AppointmentStatus::Pending
+        public readonly int $id,
+        public readonly Doctor $doctor,
+        public readonly Patient $patient,
+        public readonly Consultation $consultation,
+        public readonly AppointmentTime $time,
+        AppointmentStatus $status = AppointmentStatus::Pending
     ) {
+        $this->status = $status;
     }
 
     public function getId(): int
@@ -44,6 +47,11 @@ final readonly class Appointment
         return $this->status;
     }
 
+    public function changeStatus(AppointmentStatus $newStatus): void
+    {
+        $this->status = $newStatus;
+    }
+
     public function isPending(): bool
     {
         return $this->status->isPending();
@@ -69,15 +77,12 @@ final readonly class Appointment
         return $this->status->isTerminal();
     }
 
-    public function withStatus(AppointmentStatus $status): self
+    public function __get(string $name): mixed
     {
-        return new self(
-            $this->id,
-            $this->doctor,
-            $this->patient,
-            $this->consultation,
-            $this->time,
-            $status
-        );
+        if ($name === 'status') {
+            return $this->status;
+        }
+
+        throw new Error("Cannot access property Appointment::\${$name}");
     }
 }
