@@ -1,7 +1,4 @@
 <?php
-
-require_once __DIR__ . '/Consultation.php';
-
 final class RegularConsultation extends Consultation
 {
     public function getName(): string

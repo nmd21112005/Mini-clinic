@@ -1,19 +1,30 @@
 <?php
 
 spl_autoload_register(static function (string $class): void {
-    static $directories = [
-        __DIR__ . '/Consultations',
-        __DIR__ . '/Enums',
-        __DIR__ . '/Exceptions',
-        __DIR__ . '/Models',
-        __DIR__ . '/Notifiers',
-        __DIR__ . '/Repositories',
-        __DIR__ . '/Services',
-        __DIR__ . '/ValueObjects',
+    static $map = [
+        'Person'       => '/Models/Person.php',
+        'Consultation' => '/Consultations/Consultation.php',
+        'ClinicException' => '/Exceptions/ClinicException.php',
     ];
 
+    static $directories = [
+        '/Consultations',
+        '/Enums',
+        '/Exceptions',
+        '/Models',
+        '/Notifiers',
+        '/Repositories',
+        '/Services',
+        '/ValueObjects',
+    ];
+
+    if (isset($map[$class])) {
+        require_once __DIR__ . $map[$class];
+        return;
+    }
+
     foreach ($directories as $directory) {
-        $file = $directory . '/' . $class . '.php';
+        $file = __DIR__ . $directory . '/' . $class . '.php';
         if (file_exists($file)) {
             require_once $file;
             return;
